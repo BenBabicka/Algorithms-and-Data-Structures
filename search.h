@@ -37,6 +37,30 @@ public:
         }
         return false;
     }
+
+    //o(sqrt(n))
+    static bool jump_search(const int arr[], const int size, const int key) noexcept {
+        const int jmpAmount = std::floor(std::sqrt(size));
+        int i = jmpAmount;
+
+        for (; i < size; i += jmpAmount ){
+            if (arr[i] == key) {
+                return true;
+            }
+            if (arr[i] >= key) {
+                break;
+            }
+        }
+
+        i -= jmpAmount;
+        for (int j = 0; j < jmpAmount && i < size; j++, i++) {
+            if (arr[i] == key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 };
 
 
