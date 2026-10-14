@@ -5,11 +5,12 @@
 #ifndef ALGORITHMS_LINKEDLISTITERATOR_H
 #define ALGORITHMS_LINKEDLISTITERATOR_H
 
-#include <cassert>
 #include <iostream>
-#include <ostream>
-
 #include <memory>
+#include <ostream>
+#include <stdexcept>
+#include <utility>
+
 
 template<typename T>
 class DoublyLinkedList {
@@ -56,12 +57,55 @@ public:
 
     DoublyLinkedList() noexcept = default;
 
+    DoublyLinkedList(const DoublyLinkedList &other) {
+        try {
+            for (node current = other.head; current; current = current->next) {
+                append(current->data);
+            }
+        } catch (...) {
+            clear();
+            throw;
+        }
+    }
+
+    DoublyLinkedList(DoublyLinkedList &&other) noexcept : head(std::move(other.head)),
+                                                          tail(std::move(other.tail)),
+                                                          length(other.length) {
+        other.length = 0;
+    }
+
+    DoublyLinkedList &operator=(DoublyLinkedList other) noexcept {
+        swap(other);
+        return *this;
+    }
+
+    ~DoublyLinkedList() {
+        clear();
+    }
+
+    void swap(DoublyLinkedList &other) noexcept {
+        std::swap(head, other.head);
+        std::swap(tail, other.tail);
+        std::swap(length, other.length);
+    }
+
+    void clear() noexcept {
+        tail = nullptr;
+        node current = std::move(head);
+        while (current) {
+            node following = std::move(current->next);
+            current = std::move(following);
+        }
+        length = 0;
+    }
+
     int getLength() const noexcept {
         return length;
     }
 
     void insertAt(T aData, const int aIndex) {
-        assert(aIndex >= 0 && aIndex <= length);
+        if (aIndex < 0 || aIndex > length)
+            throw std::out_of_range("Index out of range");
 
         if (aIndex == 0) {
             prepend(aData);
@@ -72,68 +116,75 @@ public:
             return;
         }
 
-        length++;
-
-        node newNode = Node::makeNode(aData);
+        node newNode = Node::makeNode(std::move(aData));
         node currentNode = getAt(aIndex);
+        node previousNode = currentNode->previous.lock();
 
         newNode->next = currentNode;
-        newNode->previous = currentNode->previous.lock();
+        newNode->previous = previousNode;
         currentNode->previous = newNode;
-        if (newNode->previous.lock() != nullptr) {
-            newNode->previous.lock()->next = newNode;
-        }
+        previousNode->next = newNode;
+        length++;
     }
 
     T remove(T aItem) {
-        node currentNode = head;
-        for (int i = 0; i < length; i++) {
-            if (currentNode->data == aItem) {
-                break;
+        for (node current = head; current; current = current->next) {
+            if (current->data == aItem) {
+                return removeNode(current);
             }
-            currentNode = currentNode->next;
         }
-        return removeNode(currentNode);
+        throw std::out_of_range("Item not found");
     }
 
     T removeAt(const int aIndex) {
-       return removeNode(getAt(aIndex));
+        if (aIndex < 0 || aIndex >= length)
+            throw std::out_of_range("Index out of range");
+
+        return removeNode(getAt(aIndex));
     }
 
     void append(const T &aData) {
         node newNode = Node::makeNode(aData);
-        length++;
+
         if (tail == nullptr) {
             head = tail = newNode;
-            return;
+        } else {
+            newNode->previous = tail;
+            tail->next = newNode;
+            tail = newNode;
         }
-        newNode->previous = tail;
-        tail->next = newNode;
-        tail = newNode;
+        length++;
     }
 
     void prepend(const T &aData) {
         node newNode = Node::makeNode(aData);
-        length++;
         if (head == nullptr) {
             head = tail = newNode;
-            return;
+        } else {
+            newNode->next = head;
+            head->previous = newNode;
+            head = newNode;
         }
-        newNode->next = head;
-        head->previous = newNode;
-        head = newNode;
+        length++;
     }
 
-    node get(const int aIndex) const {
-        assert(aIndex >= 0 && aIndex < length);
-        node currentNode = getAt(aIndex);
-        if (!currentNode) {
-            return nullptr;
-        }
-        return currentNode->data;
+    const T &get(const int aIndex) const {
+        if (aIndex < 0 || aIndex >= length)
+            throw std::out_of_range("Index out of range");
+
+        return getAt(aIndex)->data;
     }
 
-    void print(const bool printData = false) {
+    bool contains(const T &aData) const {
+        for (node current = head; current; current = current->next) {
+            if (current->data == aData) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void print(const bool printData = false) const {
         std::cout << "=======================" << std::endl << "Linked List" << std::endl << "======================="
                 << std::endl;
         if (head == nullptr) {
@@ -180,31 +231,26 @@ private:
 
     node getAt(int aIndex) const {
         node current = head;
+
         for (int i = 0; current && i < aIndex; i++) {
             current = current->next;
         }
+
         return current;
     }
 
     T removeNode(node currentNode) {
-        if (!currentNode) {
-            return nullptr;
-        }
-        const T data = currentNode->data;
+       T data = std::move(currentNode->data);
 
-        length--;
-        if (length == 0) {
-            head = tail = nullptr;
-            return currentNode->data;
-        }
         if (currentNode == head) {
             head = currentNode->next;
         }
         if (currentNode == tail) {
             tail = currentNode->previous.lock();
         }
+
         currentNode->isolate();
-        currentNode = nullptr;
+        length--;
 
         return data;
     }

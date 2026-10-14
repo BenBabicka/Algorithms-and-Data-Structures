@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <iostream>
 
+#include "DoublyLinkedList.h"
 #include "MinHeap.h"
 #include "RingBuffer.h"
 
@@ -8,7 +9,6 @@
 int main() {
 
     ArrayList<int> list{1, 2, 3, 4, 5};
-
     list.print();
     list.pop();
     list.pop();
@@ -22,8 +22,8 @@ int main() {
     ring.shift();
     ring.push(6);
     ring.print();
-    MinHeap heap;
 
+    MinHeap heap;
     heap.insert(5);
     heap.insert(2);
     heap.insert(1);
@@ -34,4 +34,20 @@ int main() {
     std::cout << heap.remove() << std::endl;
     std::cout << heap.remove() << std::endl;
     std::cout << heap.remove() << std::endl;
+
+    DoublyLinkedList<int> dList;
+    dList.append(1);
+    dList.append(2);
+    dList.append(3);
+    dList.prepend(4);
+    dList.prepend(5);
+    dList.print();
+    std::cout << dList.remove(1) << std::endl;
+    std::cout << dList.remove(2) << std::endl;
+    //std::cout << dList.remove(1) << std::endl; //Throws error
+    std::cout << "Contains 1: " << dList.contains(1) << std::endl;
+    std::cout << "Contains 4: " << dList.contains(4) << std::endl;
+    std::cout << dList.removeAt(1) << std::endl;
+    std::cout << dList.get(1) << std::endl;
+    dList.print();
 }
