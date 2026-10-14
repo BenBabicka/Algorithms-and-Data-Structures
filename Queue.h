@@ -19,7 +19,7 @@ public:
         return length;
     }
 
-    T deque() noexcept {
+    T deque() {
         if (length == 0)
             throw std::logic_error("Queue is empty");
         length = std::max(0, length - 1);
@@ -35,12 +35,11 @@ public:
         return tempNode->data;
     }
 
-    T peek() const noexcept {
+    T peek() const {
         if (head == nullptr)
-            return nullptr;
+            throw std::logic_error("Queue is empty");
 
-        node tempNode = head;
-        return tempNode->data;
+        return head->data;
     }
 
     void enqueue(const T &aData) noexcept {
@@ -51,10 +50,11 @@ public:
 
         if (length == 1) {
             tail = head = newNode;
+            return;
         }
 
         tail->next = newNode;
-        tail = newNode->next = newNode;
+        tail = newNode;
     }
 
     void print(bool printData = false) noexcept {
@@ -92,12 +92,11 @@ public:
         }
         std::cout << std::endl << "}" << std::endl;
     }
-    bool empty() noexcept {
-        if (head == nullptr && tail == nullptr) {
-            return true;
-        }
-        return false;
+
+    bool empty() const noexcept {
+        return length == 0;
     }
+
 private:
     node head;
     node tail;
