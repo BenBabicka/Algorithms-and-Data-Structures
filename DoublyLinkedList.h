@@ -196,28 +196,27 @@ public:
         std::cout << "tail: " << tail->data << std::endl;
         std::cout << "length: " << length << std::endl;
 
-        node tempNode = getAt(0);
-        std::cout << "  (" << tempNode->data << ")";
+        std::cout << "  (" << head->data << ")";
         if (printData) {
             std::cout << std::endl << "     {" << std::endl;
             std::cout << "      Index: " << 0 << std::endl;
-            std::cout << "      Data: " << tempNode->data << std::endl;
-            std::cout << "      This: " << tempNode << std::endl;
-            std::cout << "      Prev: " << tempNode->previous.lock() << std::endl;
-            std::cout << "      Next: " << tempNode->next << std::endl;
+            std::cout << "      Data: " << head->data << std::endl;
+            std::cout << "      This: " << head << std::endl;
+            std::cout << "      Prev: " << head->previous.lock() << std::endl;
+            std::cout << "      Next: " << head->next << std::endl;
             std::cout << "      }";
         }
 
-        for (int i = 1; i < length; i++) {
-            tempNode = getAt(i);
-            std::cout << "," << std::endl << "  (" << tempNode->data << ")";
+        int i = 1;
+        for (node current = head->next; current; current = current->next) {
+            std::cout << "," << std::endl << "  (" << current->data << ")";
             if (printData) {
                 std::cout << std::endl << "     {" << std::endl;
-                std::cout << "      Index: " << i << std::endl;
-                std::cout << "      Data: " << tempNode->data << std::endl;
-                std::cout << "      This: " << tempNode << std::endl;
-                std::cout << "      Prev: " << tempNode->previous.lock() << std::endl;
-                std::cout << "      Next: " << tempNode->next << std::endl;
+                std::cout << "      Index: " << i++ << std::endl;
+                std::cout << "      Data: " << current->data << std::endl;
+                std::cout << "      This: " << current << std::endl;
+                std::cout << "      Prev: " << current->previous.lock() << std::endl;
+                std::cout << "      Next: " << current->next << std::endl;
                 std::cout << "      }";
             }
         }

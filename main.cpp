@@ -37,6 +37,7 @@ int main() {
 
     DoublyLinkedList<int> dList;
     dList.append(1);
+    dList.print();
     dList.append(2);
     dList.append(3);
     dList.prepend(4);
