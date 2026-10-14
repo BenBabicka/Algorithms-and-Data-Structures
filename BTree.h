@@ -15,22 +15,16 @@ template<typename T>
 class BTree {
     struct Node {
         using node = std::shared_ptr<Node>;
-
+        using node_w = std::weak_ptr<Node>;
         T data;
 
         node left;
         node right;
-        node parent;
-        int height;
 
-        Node(const T aData) noexcept : data(std::move(aData)) {
-        }
+        node_w parent;
+        int height = 0;
 
-        void isolate() {
-            data = T{};
-            parent.reset();
-            left.reset();
-            right.reset();
+        explicit Node(T aData) : data(std::move(aData)) {
         }
 
         template<typename... Args>
