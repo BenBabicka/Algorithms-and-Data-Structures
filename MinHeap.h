@@ -22,14 +22,14 @@ public:
         length++;
     }
 
-    int remove() noexcept {
-        if (length == 0) return std::out_of_range;
+    int remove() {
+        if (length == 0) throw std::out_of_range("MinHeap is empty");
         const int out = data[0];
         length--;
 
         data[0] = data[length];
         data.pop();
-        if(length == 0) return out;
+        if (length == 0) return out;
 
         heapifyDown(0);
         return out;
@@ -70,10 +70,9 @@ private:
         if (lIndex >= length) return;
 
         int smallest = lIndex;
-        if(rIndex < length && data[rIndex] < data[lIndex]) smallest = rIndex;
+        if (rIndex < length && data[rIndex] < data[lIndex]) smallest = rIndex;
 
-        if(data[smallest] < data[i])
-        {
+        if (data[smallest] < data[i]) {
             const int temp = data[i];
             data[i] = data[smallest];
             data[smallest] = temp;
