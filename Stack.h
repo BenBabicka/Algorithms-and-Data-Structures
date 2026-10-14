@@ -21,7 +21,7 @@ public:
     }
 
 
-    T pop() noexcept {
+    T pop() {
         if (length == 0)
             throw std::logic_error("Stack is empty");
         length = std::max(0, length - 1);
@@ -36,12 +36,11 @@ public:
         return tempNode->data;
     }
 
-    T peek() const noexcept {
+    T peek() const {
         if (head == nullptr)
-            return nullptr;
+            throw std::logic_error("Stack is empty");
 
-        node tempNode = head;
-        return tempNode->data;
+        return head->data;
     }
 
     void push(const T &aData) noexcept {
@@ -52,6 +51,7 @@ public:
 
         if (length == 1) {
             head = tail = newNode;
+            return;
         }
         newNode->next = head;
         head = newNode;
@@ -91,6 +91,10 @@ public:
             }
         }
         std::cout << std::endl << "}" << std::endl;
+    }
+
+    bool empty() const noexcept {
+        return length == 0;
     }
 
 private:
