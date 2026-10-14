@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "MinHeap.h"
+#include "RingBuffer.h"
 
 
 int main() {
@@ -16,6 +17,11 @@ int main() {
     list.push(20);
     list.print();
 
+    RingBuffer<int> ring{1,2,3,5};
+    ring.print();
+    ring.shift();
+    ring.push(6);
+    ring.print();
     MinHeap heap;
 
     heap.insert(5);
