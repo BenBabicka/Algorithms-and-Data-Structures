@@ -4,23 +4,63 @@
 
 #ifndef ALGORITHMS_ARRAYLIST_H
 #define ALGORITHMS_ARRAYLIST_H
-#include <array>
 #include <cassert>
+#include <initializer_list>
+#include <iostream>
+#include <stdexcept>
+#include <utility>
 
 template<typename T>
 class ArrayList {
 public:
-    ArrayList() noexcept : elements(new T[0]), length(0), capacity(0) {
+    ArrayList() noexcept : elements(nullptr), length(0), capacity(0) {
     };
 
-    ArrayList(std::initializer_list<T> aInit) : length(aInit.size()),
-                                                capacity(aInit.size()),
-                                                elements(new T[aInit.size()]) {
+    ArrayList(std::initializer_list<T> aInit) : elements(new T[aInit.size()]),
+                                                length(aInit.size()),
+                                                capacity(aInit.size()) {
         int i = 0;
         for (const T &val: aInit) {
             elements[i++] = val;
         }
     };
+
+    ~ArrayList() {
+        delete[] elements;
+    }
+
+    ArrayList(const ArrayList &other) : elements(new T[other.capacity]),
+                                        length(other.length),
+                                        capacity(other.capacity) {
+        for (int i = 0; i < length; i++) {
+            elements[i] = other.elements[i];
+        }
+    }
+
+    ArrayList(ArrayList &&other) noexcept : elements(other.elements),
+                                            length(other.length),
+                                            capacity(other.capacity) {
+        other.elements = nullptr;
+        other.length = 0;
+        other.capacity = 0;
+    }
+
+    ArrayList &operator=(ArrayList other) noexcept {
+        swap(other);
+        return *this;
+    }
+
+    ArrayList &operator=(std::initializer_list<T> value) {
+        ArrayList tmp(value);
+        swap(tmp);
+        return *this;
+    }
+
+    void swap(ArrayList &other) noexcept {
+        std::swap(elements, other.elements);
+        std::swap(length, other.length);
+        std::swap(capacity, other.capacity);
+    }
 
     T operator[](int i) const {
         assert(i >= 0 && i < length);
@@ -30,19 +70,6 @@ public:
     T &operator[](int i) {
         assert(i >= 0 && i < length);
         return elements[i];
-    }
-
-    void operator=(std::initializer_list<T> value) {
-        delete[] elements;
-
-        elements = new T[value.size()];
-        capacity = std::max(1, static_cast<int>(value.size()));
-        length = value.size();
-
-        int i = 0;
-        for (const T &val: value) {
-            elements[i++] = val;
-        }
     }
 
     int getLength() const {
@@ -91,7 +118,7 @@ public:
         return val;
     }
 
-    void print() {
+    void print() const {
         std::cout << "Capacity: " << getCapacity() << std::endl;
         std::cout << "Length: " << getLength() << std::endl;
         if (length == 0) {
