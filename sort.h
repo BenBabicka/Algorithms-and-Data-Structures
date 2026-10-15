@@ -78,7 +78,7 @@ private:
         }
 
         //Copy the remaining elements of R
-        while (i < n2) {
+        while (j < n2) {
             arr[k] = R[j];
             j++;
             k++;
