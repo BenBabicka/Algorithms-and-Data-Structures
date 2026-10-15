@@ -4,54 +4,50 @@
 
 #ifndef ALGORITHMS_SORT_H
 #define ALGORITHMS_SORT_H
-
-#include <iostream>
-#include <ostream>
+#include <vector>
 
 class sort {
-    public:
-    static void bubble_sort(int *arr, const int size) {
+public:
+    static void bubble_sort(std::vector<int> &arr, const int size) {
         for (int i = 0; i < size; i++) {
+            bool swapped = false;
             for (int j = 0; j < size - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]) {
-                   const int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
+                    std::swap(arr[j], arr[j + 1]);
+                    swapped = true;
                 }
             }
+            if (!swapped) // Array is sorted
+                return;
         }
     }
 
-    static void quick_sort(int *arr, const int size) {
+    static void quick_sort(std::vector<int> &arr, const int size) {
         qsort(arr, 0, size - 1);
     }
 
 private:
-    static void qsort(int *arr, int low, int high) {
-        if (low >= high) {
-            return;
+    static void qsort(std::vector<int> &arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            qsort(arr, low, pi - 1);
+            qsort(arr, pi + 1, high);
         }
-        const int pivotIndex = partition(arr, low, high);
-        qsort(arr, low, pivotIndex - 1);
-        qsort(arr, pivotIndex + 1, high);
     }
 
-    static int partition(int *arr, int low, int high) {
-        const int pivot = arr[high];
+    static int partition(std::vector<int> &arr, int low, int high) {
+        int pivot = arr[high];
 
-        int index = low - 1;
-        for (int i = low; i < high; i++) {
-            if (arr[i] <= pivot) {
-                index++;
-                const int temp = arr[i];
-                arr[i] = arr[index];
-                arr[index] = temp;
+        int i = low - 1;
+        for (int j = low; j <= high - 1; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                std::swap(arr[i], arr[j]);
             }
         }
-        index++;
-        arr[high] = arr[index];
-        arr[index] = pivot;
-        return index;
+
+        std::swap(arr[i + 1], arr[high]);
+        return i + 1;
     }
 };
 
