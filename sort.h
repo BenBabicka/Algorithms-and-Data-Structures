@@ -27,9 +27,8 @@ public:
         qsort(arr, 0, size - 1);
     }
 
-    static void mergeSort(std::vector<int> &arr) {
-        const int n = arr.size();
-        msort(arr, 0, n - 1);
+    static void mergeSort(std::vector<int> &arr, const int size) {
+        msort(arr, 0, size - 1);
     }
 
 private:

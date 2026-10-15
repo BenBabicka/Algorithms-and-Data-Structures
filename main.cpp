@@ -117,7 +117,7 @@ int main() {
         std::cout << ", " << arr[i];
     }
     std::cout << "]" << std::endl;
-    sort::mergeSort(arr);
+    sort::mergeSort(arr, arr.size());
     std::cout << "Merge sort - Sorted array: [" << arr[0];
     for (std::size_t i = 1; i < arr.size(); i++) {
         std::cout << ", " << arr[i];
