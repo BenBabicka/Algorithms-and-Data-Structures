@@ -64,6 +64,8 @@ int main() {
     }
 
     bTree.print();
+    bTree.breadth_first_search(2);
+    bTree.depth_first_search(2);
 
     std::vector<int> arr;
     for (int i = 0; i < 200; i++) {
@@ -152,5 +154,4 @@ int main() {
     std::cout << stack.pop() << std::endl;
     std::cout << stack.pop() << std::endl;
     std::cout << stack.pop() << std::endl;
-
 }

@@ -152,14 +152,23 @@ public:
         return find(aData) != nullptr;
     }
 
-    node breadth_first_search(T needle) const{
+    node breadth_first_search(const T &needle) const {
         Queue<node> q;
         if (root)
             q.enqueue(root);
+        std::cout << "BFS: [";
+        bool first = true;
+
         while (!q.empty()) {
             const node current = q.deque();
 
+            if (!first)
+                std::cout << ", ";
+            first = false;
+            std::cout << current->data;
+
             if (current->data == needle) {
+                std::cout << "]" << std::endl;
                 return current;
             }
 
@@ -168,7 +177,16 @@ public:
             if (current->right)
                 q.enqueue(current->right);
         }
+        std::cout << "]" << std::endl;
         return nullptr;
+    }
+
+    node depth_first_search(const T &needle) const {
+        std::cout << "DFS: [";
+        bool first = true;
+        const node found = dfs_walk(root, needle, first);
+        std::cout << "]" << std::endl;
+        return found;
     }
 
     // Depth first searches
@@ -212,7 +230,7 @@ public:
         return true;
     }
 
-    node getRoot() const{
+    node getRoot() const {
         if (root == nullptr)
             throw std::out_of_range("Root is null");
         return root;
@@ -290,6 +308,24 @@ private:
             if (current->right)
                 pending.push_back(current->right.get());
         }
+    }
+
+    static node dfs_walk(const node &current, const T &needle, bool &first) {
+        if (current == nullptr)
+            return nullptr;
+        if (!first)
+            std::cout << ", ";
+        first = false;
+        std::cout << current->data;
+
+        if (current->data == needle)
+            return current;
+
+        if (const node found = dfs_walk(current->left, needle, first))
+            return found;
+
+        return dfs_walk(current->right, needle, first);
+
     }
 };
 #endif //ALGORITHMS_TREE_H
