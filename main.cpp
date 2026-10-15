@@ -7,6 +7,7 @@
 #include "RingBuffer.h"
 #include "search.h"
 #include "sort.h"
+#include "queue.h"
 
 int main() {
 
@@ -102,4 +103,28 @@ int main() {
     search::binary_search(arr, arr.size(), 101);
     search::jump_search(arr, arr.size(), 57);
     search::jump_search(arr, arr.size(), 101);
+
+    std::cout << "Queue" << std::endl;
+
+    Queue<int> queue;
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
+    queue.enqueue(4);
+    queue.enqueue(5);
+    queue.enqueue(6);
+    queue.enqueue(7);
+    queue.enqueue(8);
+    queue.enqueue(9);
+    queue.enqueue(10);
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
+    std::cout << queue.deque() << std::endl;
 }

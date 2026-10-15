@@ -15,6 +15,44 @@ class Queue {
 public:
     Queue() noexcept = default;
 
+    Queue(const Queue &aQueue) {
+        for (node current = aQueue.head; current; current = current->next) {
+            enqueue(current->data);
+        }
+    };
+
+    Queue(Queue &&aQueue) noexcept : head(aQueue.head),
+                                     tail(aQueue.tail),
+                                     length(aQueue.length) {
+        aQueue.head = aQueue.tail = nullptr;
+        aQueue.length = 0;
+    };
+
+    Queue &operator=(Queue aQueue) noexcept {
+        swap(aQueue);
+        return *this;
+    };
+
+    ~Queue() noexcept {
+        clear();
+    };
+
+    void swap(Queue &other) noexcept {
+        std::swap(head, other.head);
+        std::swap(tail, other.tail);
+        std::swap(length, other.length);
+    }
+
+    void clear() noexcept {
+        tail = nullptr;
+        node current = std::move(head);
+        while (current) {
+            node following = std::move(current->next);
+            current = std::move(following);
+        }
+        length = 0;
+    }
+
     int getLength() const noexcept {
         return length;
     }
