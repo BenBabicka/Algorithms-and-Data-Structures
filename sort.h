@@ -5,6 +5,7 @@
 #ifndef ALGORITHMS_SORT_H
 #define ALGORITHMS_SORT_H
 #include <vector>
+#include <utility>
 
 class sort {
 public:
