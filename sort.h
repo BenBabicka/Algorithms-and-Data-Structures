@@ -28,57 +28,50 @@ public:
     }
 
     static void mergeSort(std::vector<int> &arr, const int size) {
-        msort(arr, 0, size - 1);
+        // Using temp buffer to reduce number of allocations that occuring
+        std::vector<int> buffer(arr.size());
+        msort(arr, buffer, 0, size - 1);
     }
 
 private:
-    static void msort(std::vector<int> &arr, const int left, const int right) {
+    static void msort(std::vector<int> &arr, std::vector<int> &buffer, const int left, const int right) {
         if (left >= right)
             return;
         const int mid = left + (right - left) / 2;
-        msort(arr, left, mid);
-        msort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
+        msort(arr, buffer, left, mid);
+        msort(arr, buffer, mid + 1, right);
+        merge(arr, buffer, left, mid, right);
     }
 
-    static void merge(std::vector<int> &arr, int left, int mid, int right) {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
+    static void merge(std::vector<int> &arr, std::vector<int> &buffer, int left, int mid, int right) {
+        // Copy arr[left..right] into the buffer so the arr can be overwritten while merging
+        for (int x = left; x <= right; x++)
+            buffer[x] = arr[x];
 
-        //Create two temp arrays
-        std::vector<int> L(n1), R(n2);
+        int i = left; // Next unread item of the left run (buffer[left...mid])
+        int j = mid + 1; // Next unread item of the right run (buffer[mid+1...right])
+        int k = left; // Next slot to write in array
 
-        //Copy data to temp vectors L and R
-        for (int i = 0; i < n1; i++)
-            L[i] = arr[left + i];
-        for (int j = 0; j < n2; j++)
-            R[j] = arr[mid + 1 + j];
-
-        int i = 0, j = 0;
-        int k = left;
-
-        //Merge the temp arrays back into arr [left...right]
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                arr[k] = L[i];
+        //Merge the two runs of buffer back into arr[left...right]
+        while (i <= mid && j <= right) {
+            if (buffer[i] <= buffer[j]) {
+                arr[k] = buffer[i];
                 i++;
             } else {
-                arr[k] = R[j];
+                arr[k] = buffer[j];
                 j++;
             }
             k++;
         }
 
-        //Copy the remaining elements of L
-        while (i < n1) {
-            arr[k] = L[i];
+        //Copy whatever is left of either run
+        while (i <= mid) {
+            arr[k] = buffer[i];
             i++;
             k++;
         }
-
-        //Copy the remaining elements of R
-        while (j < n2) {
-            arr[k] = R[j];
+        while (j <= right) {
+            arr[k] = buffer[j];
             j++;
             k++;
         }
