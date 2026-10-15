@@ -107,6 +107,23 @@ int main() {
     }
     std::cout << "]" << std::endl;
 
+    arr.clear();
+    arr.push_back(57);
+    for (int i = 0; i < 200; i++) {
+        arr.push_back(rand() % 100);
+    }
+    std::cout << "Merge sort - Unsorted array: [" << arr[0];
+    for (std::size_t i = 1; i < arr.size(); i++) {
+        std::cout << ", " << arr[i];
+    }
+    std::cout << "]" << std::endl;
+    sort::mergeSort(arr);
+    std::cout << "Merge sort - Sorted array: [" << arr[0];
+    for (std::size_t i = 1; i < arr.size(); i++) {
+        std::cout << ", " << arr[i];
+    }
+    std::cout << "]" << std::endl;
+
     std::cout << "Search" << std::endl;
     search::linear_search(arr, arr.size(), 57);
     search::linear_search(arr, arr.size(), 101);
