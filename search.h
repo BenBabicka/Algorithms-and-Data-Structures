@@ -40,10 +40,14 @@ public:
 
     //o(sqrt(n))
     static bool jump_search(const int arr[], const int size, const int key) noexcept {
-        const int jmpAmount = std::floor(std::sqrt(size));
-        int i = jmpAmount;
+        if (size <= 0) {
+            return false;
+        }
 
-        for (; i < size; i += jmpAmount ){
+        const long long jmpAmount = static_cast<long long>(std::sqrt(static_cast<double>(size)));
+        long long i = jmpAmount;
+
+        for (; i < size; i += jmpAmount) {
             if (arr[i] == key) {
                 return true;
             }
@@ -53,7 +57,7 @@ public:
         }
 
         i -= jmpAmount;
-        for (int j = 0; j < jmpAmount && i < size; j++, i++) {
+        for (long long j = 0; j < jmpAmount && i < size; j++, i++) {
             if (arr[i] == key) {
                 return true;
             }
