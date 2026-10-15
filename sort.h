@@ -28,7 +28,7 @@ public:
     }
 
     static void mergeSort(std::vector<int> &arr, const int size) {
-        // Using temp buffer to reduce number of allocations that occuring
+        // Using temp buffer to reduce number of allocations that occurring
         std::vector<int> buffer(arr.size());
         msort(arr, buffer, 0, size - 1);
     }
