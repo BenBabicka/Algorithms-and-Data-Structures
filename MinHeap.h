@@ -16,7 +16,7 @@ public:
         return length;
     }
 
-    void insert(int value) noexcept {
+    void insert(int value) {
         data.push(value);
         heapifyUp(length);
         length++;
@@ -33,6 +33,11 @@ public:
 
         heapifyDown(0);
         return out;
+    }
+
+    int peek() {
+        if (length == 0) throw std::out_of_range("MinHeap is empty");
+        return data[0];
     }
 
 private:
