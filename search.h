@@ -53,6 +53,7 @@ public:
     //o(sqrt(n))
     static bool jump_search(const std::vector<int> &arr, const int size, const int key) noexcept {
         if (size <= 0) {
+            std::cout << "Jump search - Steps: 0, Found: False" << std::endl;
             return false;
         }
         const long long jmpAmount = static_cast<long long>(std::sqrt(static_cast<double>(size)));
