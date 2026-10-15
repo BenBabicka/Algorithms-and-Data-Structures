@@ -8,7 +8,7 @@
 #include "search.h"
 #include "sort.h"
 #include "Stack.h"
-#include "queue.h"
+#include "Queue.h"
 
 int main() {
 
