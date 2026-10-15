@@ -171,18 +171,22 @@ public:
         return nullptr;
     }
 
+    // Depth first searches
+    // N, L, R
     std::vector<node> pre_order_traversal() const {
         std::vector<node> path;
         pre_order_walk(root, path);
         return path;
     }
 
+    // L, R, N
     std::vector<node> post_order_traversal() const {
         std::vector<node> path;
         post_order_walk(root, path);
         return path;
     }
 
+    // L, N, R
     std::vector<node> in_order_traversal() const {
         std::vector<node> path;
         in_order_walk(root, path);
