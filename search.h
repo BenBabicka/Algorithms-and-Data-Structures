@@ -5,28 +5,38 @@
 #ifndef ALGORITHMS_SEARCH_H
 #define ALGORITHMS_SEARCH_H
 #include <cmath>
+#include <vector>
 
 class search {
 public:
     //o(n)
-    static bool linear_search(const int arr[], const int size, const int key) noexcept {
+    static bool linear_search(const std::vector<int> &arr, const int size, const int key) noexcept {
+        int steps = 0;
         for (int i = 0; i < size; i++) {
+            steps++;
             if (arr[i] == key) {
+                std::cout << "Steps: " << steps << ", Found: ";
                 return true;
             }
         }
+        std::cout << "Steps: " << steps << ", Found: ";
         return false;
     }
 
     //o(log(n))
-    static bool binary_search(const int arr[], const int size, const int key) noexcept {
+    static bool binary_search(const std::vector<int> &arr, const int size, const int key) noexcept {
         int lo = 0, hi = size;
+        int steps = 0;
+
         while (lo < hi) {
+            steps++;
+
             const int mid = lo + (hi - lo) / 2;
 
             const int value = arr[mid];
 
             if (value == key) {
+                std::cout << "Steps: " << steps << ", Found: ";
                 return true;
             }
             if (value < key) {
@@ -35,20 +45,23 @@ public:
                 hi = mid;
             }
         }
+        std::cout << "Steps: " << steps << ", Found: ";
         return false;
     }
 
     //o(sqrt(n))
-    static bool jump_search(const int arr[], const int size, const int key) noexcept {
+    static bool jump_search(const std::vector<int> &arr, const int size, const int key) noexcept {
         if (size <= 0) {
             return false;
         }
 
         const long long jmpAmount = static_cast<long long>(std::sqrt(static_cast<double>(size)));
         long long i = jmpAmount;
-
+        int steps = 0;
         for (; i < size; i += jmpAmount) {
+            steps++;
             if (arr[i] == key) {
+                std::cout << "Steps: " << steps << ", Found: ";
                 return true;
             }
             if (arr[i] >= key) {
@@ -58,11 +71,14 @@ public:
 
         i -= jmpAmount;
         for (long long j = 0; j < jmpAmount && i < size; j++, i++) {
+            steps++;
             if (arr[i] == key) {
+                std::cout << "Steps: " << steps << ", Found: ";
                 return true;
             }
         }
 
+        std::cout << "Steps: " << steps << ", Found: ";
         return false;
     }
 };
