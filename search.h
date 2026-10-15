@@ -6,6 +6,7 @@
 #define ALGORITHMS_SEARCH_H
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 class search {
 public:
@@ -15,11 +16,11 @@ public:
         for (int i = 0; i < size; i++) {
             steps++;
             if (arr[i] == key) {
-                std::cout << "Steps: " << steps << ", Found: ";
+                std::cout << "Linear search - Steps: " << steps << ", Found: True" << std::endl;
                 return true;
             }
         }
-        std::cout << "Steps: " << steps << ", Found: ";
+        std::cout << "Linear search - Steps: " << steps << ", Found: False" << std::endl;
         return false;
     }
 
@@ -36,7 +37,7 @@ public:
             const int value = arr[mid];
 
             if (value == key) {
-                std::cout << "Steps: " << steps << ", Found: ";
+                std::cout << "Binary search - Steps: " << steps << ", Found: True" << std::endl;
                 return true;
             }
             if (value < key) {
@@ -45,7 +46,7 @@ public:
                 hi = mid;
             }
         }
-        std::cout << "Steps: " << steps << ", Found: ";
+        std::cout << "Binary search - Steps: " << steps << ", Found: False" << std::endl;
         return false;
     }
 
@@ -54,14 +55,13 @@ public:
         if (size <= 0) {
             return false;
         }
-
         const long long jmpAmount = static_cast<long long>(std::sqrt(static_cast<double>(size)));
         long long i = jmpAmount;
         int steps = 0;
         for (; i < size; i += jmpAmount) {
             steps++;
             if (arr[i] == key) {
-                std::cout << "Steps: " << steps << ", Found: ";
+                std::cout << "Jump search - Steps: " << steps << ", Found: True" << std::endl;
                 return true;
             }
             if (arr[i] >= key) {
@@ -73,12 +73,12 @@ public:
         for (long long j = 0; j < jmpAmount && i < size; j++, i++) {
             steps++;
             if (arr[i] == key) {
-                std::cout << "Steps: " << steps << ", Found: ";
+                std::cout << "Jump search - Steps: " << steps << ", Found: True" << std::endl;
                 return true;
             }
         }
 
-        std::cout << "Steps: " << steps << ", Found: ";
+        std::cout << "Jump search - Steps: " << steps << ", Found: False" << std::endl;
         return false;
     }
 };
