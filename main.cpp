@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <iostream>
 
+#include "BTree.h"
 #include "DoublyLinkedList.h"
 #include "MinHeap.h"
 #include "RingBuffer.h"
@@ -51,4 +52,13 @@ int main() {
     std::cout << dList.removeAt(1) << std::endl;
     std::cout << dList.get(1) << std::endl;
     dList.print();
+
+    BTree<int> bTree;
+    bTree.insert(100);
+    std::srand(time(0));
+    for (int i = 0; i < 200; i++) {
+        bTree.insert(rand() % 200);
+    }
+
+    bTree.print();
 }
