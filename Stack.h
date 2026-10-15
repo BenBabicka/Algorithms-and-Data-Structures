@@ -17,9 +17,18 @@ public:
     Stack() noexcept = default;
 
     Stack(const Stack &aStack) {
+        node last;
         for (node current = aStack.head; current; current = current->next) {
-            enqueue(current->data);
+            node newNode = Node<T>::makeNode(current->data);
+            if (last) {
+                last->next = newNode;
+            } else {
+                head = newNode;
+            }
+            last = newNode;
+            length++;
         }
+        tail = last;
     };
 
     Stack(Stack &&aStack) noexcept : head(aStack.head),
