@@ -68,13 +68,13 @@ int main() {
         arr.push_back(rand() % 100);
     }
     std::cout << "Quicksort - Unsorted array: [" << arr[0];
-    for (int i = 1; i < arr.size(); i++) {
+    for (std::size_t i = 1; i < arr.size(); i++) {
         std::cout << ", " << arr[i];
     }
     std::cout << "]" << std::endl;
     sort::quick_sort(arr, arr.size());
     std::cout << "Quicksort - Sorted array: [" << arr[0];
-    for (int i = 1; i < arr.size(); i++) {
+    for (std::size_t i = 1; i < arr.size(); i++) {
         std::cout << ", " << arr[i];
     }
     std::cout << "]" << std::endl;
@@ -85,21 +85,21 @@ int main() {
         arr.push_back(rand() % 100);
     }
     std::cout << "Bubble sort - Unsorted array: [" << arr[0];
-    for (int i = 1; i < arr.size(); i++) {
+    for (std::size_t i = 1; i < arr.size(); i++) {
         std::cout << ", " << arr[i];
     }
     std::cout << "]" << std::endl;
     sort::bubble_sort(arr, arr.size());
     std::cout << "Bubble sort - Sorted array: [" << arr[0];
-    for (int i = 1; i < arr.size(); i++) {
+    for (std::size_t i = 1; i < arr.size(); i++) {
         std::cout << ", " << arr[i];
     }
     std::cout << "]" << std::endl;
 
-    std::cout << "Linear search: " << search::linear_search(arr, arr.size(), 57) << std::endl;
-    std::cout << "Linear search: " << search::linear_search(arr, arr.size(), 101) << std::endl;
-    std::cout << "Binary search: " << search::binary_search(arr, arr.size(), 57) << std::endl;
-    std::cout << "Binary search: " << search::binary_search(arr, arr.size(), 101) << std::endl;
-    std::cout << "Jump search: " << search::jump_search(arr, arr.size(), 57) << std::endl;
-    std::cout << "Jump search: " << search::jump_search(arr, arr.size(), 101) << std::endl;
+    search::linear_search(arr, arr.size(), 57);
+    search::linear_search(arr, arr.size(), 101);
+    search::binary_search(arr, arr.size(), 57);
+    search::binary_search(arr, arr.size(), 101);
+    search::jump_search(arr, arr.size(), 57);
+    search::jump_search(arr, arr.size(), 101);
 }
