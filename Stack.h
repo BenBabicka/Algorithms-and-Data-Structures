@@ -16,6 +16,46 @@ class Stack {
 public:
     Stack() noexcept = default;
 
+    Stack(const Stack &aStack) {
+        for (node current = aStack.head; current; current = current->next) {
+            enqueue(current->data);
+        }
+    };
+
+    Stack(Stack &&aStack) noexcept : head(aStack.head),
+                                     tail(aStack.tail),
+                                     length(aStack.length) {
+        aStack.head = aStack.tail = nullptr;
+        aStack.length = 0;
+    };
+
+    Stack &operator=(Stack aStack) noexcept {
+        swap(aStack);
+        return *this;
+    };
+
+    ~Stack() noexcept {
+        clear();
+    };
+
+    void swap(Stack &other) noexcept {
+        std::swap(head, other.head);
+        std::swap(tail, other.tail);
+        std::swap(length, other.length);
+    }
+
+    void clear() noexcept {
+        tail = nullptr;
+        node current = std::move(head);
+        while (current) {
+            node following = std::move(current->next);
+            current = std::move(following);
+        }
+        length = 0;
+    }
+
+
+
     int getLength() const noexcept {
         return length;
     }

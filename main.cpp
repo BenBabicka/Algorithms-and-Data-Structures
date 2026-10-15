@@ -7,6 +7,7 @@
 #include "RingBuffer.h"
 #include "search.h"
 #include "sort.h"
+#include "Stack.h"
 #include "queue.h"
 
 int main() {
@@ -127,4 +128,29 @@ int main() {
     std::cout << queue.deque() << std::endl;
     std::cout << queue.deque() << std::endl;
     std::cout << queue.deque() << std::endl;
+
+    std::cout << "Stack" << std::endl;
+
+    Stack<int> stack;
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    stack.push(4);
+    stack.push(5);
+    stack.push(6);
+    stack.push(7);
+    stack.push(8);
+    stack.push(9);
+    stack.push(10);
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+    std::cout << stack.pop() << std::endl;
+
 }
