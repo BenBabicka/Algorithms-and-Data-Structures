@@ -12,6 +12,7 @@
 
 int main() {
 
+    std::cout << "Array List" << std::endl;
     ArrayList<int> list{1, 2, 3, 4, 5};
     list.print();
     list.pop();
@@ -21,12 +22,14 @@ int main() {
     list.push(20);
     list.print();
 
+    std::cout << "Ring Buffer" << std::endl;
     RingBuffer<int> ring{1,2,3,5};
     ring.print();
     ring.shift();
     ring.push(6);
     ring.print();
 
+    std::cout << "Min Heap" << std::endl;
     MinHeap heap;
     heap.insert(5);
     heap.insert(2);
@@ -34,11 +37,13 @@ int main() {
     heap.insert(20);
     heap.insert(10);
     std::cout << heap.remove() << std::endl;
+    std::cout << heap.peek() << std::endl;
     std::cout << heap.remove() << std::endl;
     std::cout << heap.remove() << std::endl;
     std::cout << heap.remove() << std::endl;
     std::cout << heap.remove() << std::endl;
 
+    std::cout << "Doubly Linked List" << std::endl;
     DoublyLinkedList<int> dList;
     dList.append(1);
     dList.print();
@@ -56,6 +61,7 @@ int main() {
     std::cout << dList.get(1) << std::endl;
     dList.print();
 
+    std::cout << "BTree" << std::endl;
     BTree<int> bTree;
     bTree.insert(100);
     std::srand(time(0));
@@ -67,6 +73,7 @@ int main() {
     bTree.breadth_first_search(2);
     bTree.depth_first_search(2);
 
+    std::cout << "Sorting" << std::endl;
     std::vector<int> arr;
     for (int i = 0; i < 200; i++) {
         arr.push_back(rand() % 100);
@@ -100,6 +107,7 @@ int main() {
     }
     std::cout << "]" << std::endl;
 
+    std::cout << "Search" << std::endl;
     search::linear_search(arr, arr.size(), 57);
     search::linear_search(arr, arr.size(), 101);
     search::binary_search(arr, arr.size(), 57);
@@ -130,6 +138,7 @@ int main() {
     std::cout << queue.deque() << std::endl;
     std::cout << queue.deque() << std::endl;
     std::cout << queue.deque() << std::endl;
+
 
     std::cout << "Stack" << std::endl;
 
